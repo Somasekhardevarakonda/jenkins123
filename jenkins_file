@@ -59,42 +59,6 @@ pipeline
                 }
             }
         }
-        stage ('conttesting')
-        {
-            steps
-            {
-                script
-                {
-                    try
-                    {
-                        git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-                        sh 'java -jar /var/lib/jenkins/workspace/declarativepipeline/testing.jar'
-                    }
-                    catch(Exception e4)
-                    {
-                        mail bcc: '', body: 'selenium scripts not working in jenkins', cc: '', from: '', replyTo: '', subject: 'qa failed', to: 'qa.team@gmail.com'
-                        exit(1)
-                    }
-                }
-            }
-        }
-        stage('contdelivery')
-        {
-            steps
-            {
-                script
-                {
-                    try
-                    {
-                        deploy adapters: [tomcat9(credentialsId: '30b72d59-c25d-4868-b493-d2199c0cf444', path: '', url: 'http://172.31.29.99:8080')], contextPath: 'prodapp', war: '**/*.war'
-                    }
-                    catch(Exception e5)
-                    {
-                        mail bcc: '', body: 'jenkins is unable to deployed artifact in prod stage', cc: '', from: '', replyTo: '', subject: 'delivery failed', to: 'delivery.team@gmail.com'
-                        
-                    }
-                }
-            }
-        }
+
     }
 }
